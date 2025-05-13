@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet Configuration</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include '_sidebar.html' %}
+        <main class="main-content">
+            <h1>Test Configuration</h1>
+            <div id="test-config-container">
+    
+    <h2>Test to Device Sensor Mapping</h2>
+    <table id="test-mapping-table">
+        <thead>
+            <tr>
+                <th>Cabinet Connection</th>
+                <th>Device Sensor</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be populated by JS -->
+        </tbody>
+    </table>
+
+    <div id="spinner" class="spinner" style="display:none;"></div>
+    
+    <button id="add-test-mapping-btn">Add Mapping</button>
+    <button id="save-test-mapping-btn">Save Mapping</button>
+    <button id="download-test-mapping-btn" type="button">Download Config JSON</button>
+    <label for="upload-test-mapping-input" style="margin-left:16px;">
+        <input type="file" id="upload-test-mapping-input" accept="application/json" style="display:inline;" />
+        <span style="vertical-align:middle;">Upload Config JSON</span>
+    </label>
+    <div id="test-save-status" style="margin-top:16px;color:green;"></div>
+</div>
+        </main>
+    </div>
+    <script src="/static/main.js"></script>
+    <script src="/static/test_config.js"></script>
+</body>
+</html>
+    

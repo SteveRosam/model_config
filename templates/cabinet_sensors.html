@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabinet Sensors</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include '_sidebar.html' %}
+        <main class="main-content">
+            <h1>Cabinet Sensors</h1>
+            <form id="sensor-form">
+                <input type="text" id="sensor-unique-id" placeholder="Unique ID" required style="margin-right:8px;">
+                <input type="text" id="sensor-name" placeholder="Name" required style="margin-right:8px;">
+                <input type="text" id="sensor-desc" placeholder="Description" required style="margin-right:8px;">
+                <button type="submit">Add Sensor</button>
+                <span id="sensor-status" style="margin-left:16px;color:green;"></span>
+            </form>
+            <button id="download-sensors-btn" type="button">Download Sensors JSON</button>
+            <label for="upload-sensors-input" style="margin-left:16px;">
+                <input type="file" id="upload-sensors-input" accept="application/json" style="display:inline;" />
+                <span style="vertical-align:middle;">Upload Sensors JSON</span>
+            </label>
+            <h2>Existing Sensors</h2>
+            <table id="sensor-table">
+                <thead>
+                    <tr><th>Unique ID</th><th>Name</th><th>Description</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </main>
+    </div>
+    <script src="/static/cabinet_sensors.js"></script>
+</body>
+</html>

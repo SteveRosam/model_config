@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>Run Test</h1>
+<form id="run-test-form">
+    <label for="file-select"><strong>Select Data File:</strong></label>
+    <select id="file-select" required style="margin-right:16px;"></select>
+    <label for="config-select"><strong>Select Test Configuration:</strong></label>
+    <select id="config-select" required style="margin-right:16px;"></select>
+    <button type="submit">Run</button>
+    <span id="run-status" style="margin-left:16px;color:green;"></span>
+</form>
+
+<script src="{{ url_for('static', filename='run_test.js') }}"></script>
+
+{% endblock %}

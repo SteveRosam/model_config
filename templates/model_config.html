@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Configuration</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include '_sidebar.html' %}
+        <main class="main-content">
+            <h1>Model Configuration</h1>
+            <div id="model-config-container">
+                <label for="model-select"><strong>Select Model:</strong></label>
+                <select id="model-select"></select>
+                <form id="model-config-form">
+                    <h2>Parameters</h2>
+                    <table style="width:100%;margin-bottom:8px;">
+                        <thead>
+                            <tr><th>Model Parameter Name</th><th>Source</th><th>Data</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="param-list"></tbody>
+                    </table>
+                    <button type="button" id="add-param-btn">Add Parameter</button>
+                    <button type="submit" id="save-model-config-btn">Save</button>
+                    <button id="download-model-config-btn" type="button">Download Config JSON</button>
+                    <label for="upload-model-config-input" style="margin-left:16px;">
+                        <input type="file" id="upload-model-config-input" accept="application/json" style="display:inline;" />
+                        <span style="vertical-align:middle;">Upload Config JSON</span>
+                    </label>
+                    <div id="model-save-status" style="margin-top:16px;color:green;"></div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="/static/model_config.js"></script>
+</body>
+</html>

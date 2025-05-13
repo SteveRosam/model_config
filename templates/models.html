@@ -1,0 +1,23 @@
+{% extends "index.html" %}
+{% block content %}
+<h1>Models</h1>
+<form id="add-model-form" style="margin-bottom:24px;">
+    <input type="text" id="model-name" placeholder="Model Name" required style="margin-right:8px;">
+    <input type="text" id="model-file" placeholder="Model File (e.g. model1.pkl)" required style="margin-right:8px;">
+    <input type="text" id="model-desc" placeholder="Description" required style="margin-right:8px;">
+    <button type="submit">Add Model</button>
+</form>
+<button id="download-models-btn" type="button">Download Models JSON</button>
+<label for="upload-models-input" style="margin-left:16px;">
+    <input type="file" id="upload-models-input" accept="application/json" style="display:inline;" />
+    <span style="vertical-align:middle;">Upload Models JSON</span>
+</label>
+<table style="width:100%;">
+    <thead>
+        <tr><th>Name</th><th>File</th><th>Description</th></tr>
+    </thead>
+    <tbody id="models-list"></tbody>
+</table>
+<script src="{{ url_for('static', filename='models.js') }}"></script>
+
+{% endblock %}
