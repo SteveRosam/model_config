@@ -103,7 +103,8 @@ def api_run_test():
     test_run = {
         'file': data['file'],
         'config_idx': data['config_idx'],
-        'timestamp': datetime.datetime.now().isoformat()
+        'timestamp': datetime.datetime.now().isoformat(),
+        'user': data.get('user', 'Emma Wagner')
     }
     test_run_history.append(test_run)
     save_data('test_run_history', test_run_history)

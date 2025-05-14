@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/run_test', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: selectedFile, config_idx: selectedConfigIdx })
+            body: JSON.stringify({ file: selectedFile, config_idx: selectedConfigIdx, user: 'Emma Wagner' })
         })
         .then(r => r.json())
         .then(resp => {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 history.slice().reverse().forEach(run => {
                     const tr = document.createElement('tr');
                     const configName = configs[run.config_idx]?.name || `Config ${Number(run.config_idx) + 1}` || '';
-                    tr.innerHTML = `<td>${new Date(run.timestamp).toLocaleString()}</td><td>${run.file}</td><td>${configName}</td>`;
+                    tr.innerHTML = `<td>${new Date(run.timestamp).toLocaleString()}</td><td>${run.file}</td><td>${configName}</td><td>${run.user || 'Unknown'}</td>`;
                     tbody.appendChild(tr);
                 });
             } else {

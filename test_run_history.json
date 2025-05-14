@@ -2,11 +2,19 @@
   {
     "file": "2025-01-22_BOILER_V7",
     "config_idx": "0",
-    "timestamp": "2025-05-14T15:13:15.900701"
+    "timestamp": "2025-05-14T15:13:15.900701",
+    "user": "Hans Schneider"
   },
   {
     "file": "2025-03-15_HEATER_A3",
     "config_idx": "1",
-    "timestamp": "2025-05-14T15:13:50.954467"
+    "timestamp": "2025-05-14T15:13:50.954467",
+    "user": "Emma Wagner"
+  },
+  {
+    "file": "2025-01-22_BOILER_V7",
+    "config_idx": "0",
+    "timestamp": "2025-05-14T15:23:56.417290",
+    "user": "Emma Wagner"
   }
 ]

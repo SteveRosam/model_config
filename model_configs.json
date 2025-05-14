@@ -10,5 +10,12 @@
       "data_property_name": "h",
       "source": "Live Data"
     }
+  ],
+  "model1.pkl": [
+    {
+      "model_param": "Flywheel",
+      "data_property_name": "f_wheel",
+      "source": "Live Data"
+    }
   ]
 }
