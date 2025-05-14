@@ -1,54 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model Configuration</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/model_config.css">
-</head>
-<body>
-    <div class="container">
-        {% include '_sidebar.html' %}
-        <main class="main-content">
-            <div class="display-flex-header">
-                <h1>Model Configurations</h1>
-                <button class="cog-btn" id="model-config-cog-btn" title="Import/Export Model Config">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67-2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
-                    </svg>
-                </button>
-            </div>
-            <!-- Modal Popup for Import/Export -->
-            <div class="modal-overlay" id="model-config-modal">
-                <div class="modal-content">
-                    <button class="modal-close-btn" id="close-model-config-modal">&times;</button>
-                    <h2>Import/Export Model Config</h2>
-                    <button id="download-model-config-btn" type="button">Download Model Config JSON</button>
-                    <label for="upload-model-config-input">
-                        <input type="file" id="upload-model-config-input" accept="application/json" />
-                        <span>Upload Model Config JSON</span>
-                    </label>
-                </div>
-            </div>
-            <div id="model-config-container">
-                <label for="model-select"><strong>Select Model:</strong></label>
-                <select id="model-select"></select>
-                <form id="model-config-form">
-                    <h2>Parameters</h2>
-                    <table class="table-full" style="margin-bottom:8px;">
-                        <thead>
-                            <tr><th>Model Parameter Name</th><th>Source</th><th>Data</th><th>Action</th></tr>
-                        </thead>
-                        <tbody id="param-list"></tbody>
-                    </table>
-                    <button type="button" id="add-param-btn">Add Parameter</button>
-                    <button type="submit" id="save-model-config-btn">Save</button>
-                    <div id="model-save-status" style="margin-top:16px;color:green;"></div>
-                </form>
-            </div>
-        </main>
+{% extends "index.html" %}
+{% block content %}
+<link rel="stylesheet" href="/static/model_config.css">
+<div class="display-flex-header">
+    <h1>Model Configurations</h1>
+    <button class="cog-btn" id="model-config-cog-btn" title="Import/Export Model Config">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67 2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
+        </svg>
+    </button>
+</div>
+<!-- Modal Popup for Import/Export -->
+<div class="modal-overlay" id="model-config-modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" id="close-model-config-modal">&times;</button>
+        <h2>Import/Export Model Config</h2>
+        <button id="download-model-config-btn" type="button">Download Model Config JSON</button>
+        <label for="upload-model-config-input">
+            <input type="file" id="upload-model-config-input" accept="application/json" />
+            <span>Upload Model Config JSON</span>
+        </label>
     </div>
-    <script src="/static/model_config.js"></script>
-</body>
-</html>
+</div>
+<div id="model-config-container">
+    <label for="model-select"><strong>Select Model:</strong></label>
+    <select id="model-select"></select>
+    <form id="model-config-form">
+        <h2>Parameters</h2>
+        <table class="table-full" style="margin-bottom:8px;">
+            <thead>
+                <tr><th>Model Parameter Name</th><th>Source</th><th>Data</th><th>Action</th></tr>
+            </thead>
+            <tbody id="param-list"></tbody>
+        </table>
+        <button type="button" id="add-param-btn">Add Parameter</button>
+        <button type="submit" id="save-model-config-btn">Save</button>
+        <div id="model-save-status" style="margin-top:16px;color:green;"></div>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/static/model_config.js"></script>{% endblock %}

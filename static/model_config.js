@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('model-config-form');
     const downloadBtn = document.getElementById('download-model-config-btn');
     const uploadInput = document.getElementById('upload-model-config-input');
-    const configCogBtn = document.getElementById('config-cog-btn');
+    const configCogBtn = document.getElementById('model-config-cog-btn');
     const configModal = document.getElementById('model-config-modal');
-    const closeConfigModal = document.getElementById('close-config-modal');
+    const closeConfigModal = document.getElementById('close-model-config-modal');
 
     // Live data options (populated from API only)
     let liveDataOptions = [];

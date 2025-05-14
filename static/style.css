@@ -61,6 +61,14 @@ body {
     gap: 12px;
 }
 
+.cog-btn svg {
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    fill: #555;
+}
+
 .cog-btn {
     background: none;
     border: none;

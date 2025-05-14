@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const uploadInput = document.getElementById('upload-models-input');
     const configCogBtn = document.getElementById('config-cog-btn');
     const configModal = document.getElementById('models-config-modal');
-    const closeConfigModal = document.getElementById('close-config-modal');
+    const closeConfigModal = document.getElementById('close-models-config-modal');
 
     function loadModels() {
         fetch('/api/models')

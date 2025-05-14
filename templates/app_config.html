@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Configuration</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/app_config.css">
-</head>
-<body>
-    <div class="container">
-        {% include '_sidebar.html' %}
-        <main class="main-content">
+{% extends "index.html" %}
+{% block content %}
+<link rel="stylesheet" href="/static/app_config.css">
             <h1>App Configuration</h1>
             <div id="config-container">
                 <form id="app-config-form">
@@ -33,9 +23,6 @@
 </div>
 <button id="save-btn" type="submit" form="app-config-form">Save</button>
 <span id="save-status">Saved!</span>
+</div>
 <script src="/static/app_config.js"></script>
-            </div>
-        </main>
-    </div>
-</body>
-</html>
+{% endblock %}
