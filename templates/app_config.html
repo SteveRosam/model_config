@@ -14,6 +14,7 @@
             <div id="config-container">
                 <form id="app-config-form">
     <div class="form-group">
+        <h3 style="margin-bottom:8px;">Test Chamber Page Labels</h3>
         <label for="test-chamber-page-name">Test Chamber Page Name</label>
         <input type="text" id="test-chamber-page-name" name="test_chamber_page_name" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
     </div>
@@ -27,9 +28,10 @@
         <label for="device-sensor-label">Device Sensor Column Label</label>
         <input type="text" id="device-sensor-label" name="device_sensor_label" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
     </div>
-    <button type="submit">Save</button>
-    <span id="save-status" style="margin-left:12px;color:#4caf50;display:none;">Saved!</span>
 </form>
+</div>
+<button type="submit" form="app-config-form" style="margin-top:24px;">Save</button>
+<span id="save-status" style="margin-left:12px;color:#4caf50;display:none;">Saved!</span>
 <script>
 // Load current config
 fetch('/api/app_config').then(r => r.json()).then(cfg => {
