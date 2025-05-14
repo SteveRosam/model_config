@@ -70,22 +70,54 @@ document.addEventListener('DOMContentLoaded', function () {
             tbody.innerHTML = '';
             sensors.forEach(s => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${s.unique_id}</td><td>${s.name}</td><td>${s.description}</td>`;
+                tr.innerHTML = `<td>${s.unique_id}</td>`;
                 tbody.appendChild(tr);
             });
         }
     });
-    fetch('/api/test_mapping').then(r => r.json()).then(mapping => {
-        const tbody = document.querySelector('#mapping-table tbody');
-        if (tbody) {
-            tbody.innerHTML = '';
-            mapping.forEach(m => {
+    fetch('/api/test_mapping').then(r => r.json()).then(configs => {
+    const mappingTable = document.getElementById('mapping-table');
+    // Remove any previously rendered configs
+    const oldBlocks = document.querySelectorAll('.test-config-block');
+    oldBlocks.forEach(el => el.remove());
+    if (mappingTable && Array.isArray(configs) && configs.length) {
+        let insertAfter = mappingTable;
+        configs.forEach(cfg => {
+            const block = document.createElement('div');
+            block.className = 'test-config-block';
+            block.style.marginBottom = '32px';
+            const heading = document.createElement('h3');
+            heading.textContent = cfg.name || 'Unnamed Configuration';
+            block.appendChild(heading);
+            const desc = document.createElement('div');
+            desc.textContent = cfg.description || '';
+            desc.style.fontStyle = 'italic';
+            desc.style.marginBottom = '8px';
+            block.appendChild(desc);
+            const table = document.createElement('table');
+            table.className = 'mapping-table';
+            table.style.width = '100%';
+            table.innerHTML = `<thead><tr><th>Cabinet Connection</th><th>Device Sensor</th></tr></thead>`;
+            const tbody = document.createElement('tbody');
+            if (Array.isArray(cfg.mapping) && cfg.mapping.length) {
+                cfg.mapping.forEach(m => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${m.test_connection}</td><td>${m.device_sensor}</td>`;
+                    tbody.appendChild(tr);
+                });
+            } else {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${m.test_connection}</td><td>${m.device_sensor}</td>`;
+                tr.innerHTML = '<td colspan="2" style="text-align:center;color:#888;">No mappings</td>';
                 tbody.appendChild(tr);
-            });
-        }
-    });
+            }
+            table.appendChild(tbody);
+            block.appendChild(table);
+            // Insert directly after the mapping table
+            insertAfter.parentNode.insertBefore(block, insertAfter.nextSibling);
+            insertAfter = block;
+        });
+    }
+});
     // Model Configs
     fetch('/api/models').then(r => r.json()).then(models => {
         const container = document.getElementById('model-configs-list');

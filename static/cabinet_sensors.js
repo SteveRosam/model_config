@@ -3,8 +3,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('sensor-form');
     const uniqueIdInput = document.getElementById('sensor-unique-id');
-    const nameInput = document.getElementById('sensor-name');
-    const descInput = document.getElementById('sensor-desc');
+    
     const statusSpan = document.getElementById('sensor-status');
     const tableBody = document.querySelector('#sensor-table tbody');
     const downloadBtn = document.getElementById('download-sensors-btn');
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(sensors => {
                 sensors.forEach(s => {
                     const row = document.createElement('tr');
-                    row.innerHTML = `<td>${s.unique_id}</td><td>${s.name}</td><td>${s.description}</td>`;
+                    row.innerHTML = `<td>${s.unique_id}</td>`;
                     tableBody.appendChild(row);
                 });
             });
@@ -26,13 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
     form.onsubmit = function (e) {
         e.preventDefault();
         const unique_id = uniqueIdInput.value.trim();
-        const name = nameInput.value.trim();
-        const description = descInput.value.trim();
-        if (!unique_id || !name || !description) return;
+        if (!unique_id) return;
         fetch('/api/cabinet_sensors', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ unique_id, name, description })
+            body: JSON.stringify({ unique_id })
         })
         .then(r => r.json())
         .then(resp => {

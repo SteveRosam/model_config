@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cabinetConnections.forEach(sensor => {
                 const option = document.createElement('option');
                 option.value = sensor.unique_id;
-                option.textContent = `${sensor.unique_id} (${sensor.name})`;
+                option.textContent = sensor.unique_id;
                 if (sensor.unique_id === selected) option.selected = true;
                 select.appendChild(option);
             });

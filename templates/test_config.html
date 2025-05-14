@@ -13,19 +13,28 @@
             <h1>Test Configuration</h1>
             <div id="test-config-container">
     
-    <h2>Test to Device Sensor Mapping</h2>
-    <table id="test-mapping-table">
-        <thead>
-            <tr>
-                <th>Cabinet Connection</th>
-                <th>Device Sensor</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be populated by JS -->
-        </tbody>
-    </table>
+    <div style="margin-bottom:24px;">
+    <label for="config-selector"><b>Select Configuration:</b></label>
+    <select id="config-selector" style="margin-right:8px;"></select>
+    <button id="add-config-btn" type="button">Add New Configuration</button>
+</div>
+<div style="margin-bottom:16px;">
+    <label><b>Name:</b> <input type="text" id="config-name" style="width:160px;margin-right:16px;"></label>
+    <label><b>Description:</b> <input type="text" id="config-desc" style="width:300px;"></label>
+</div>
+<h2>Test to Device Sensor Mapping</h2>
+<table id="test-mapping-table">
+    <thead>
+        <tr>
+            <th>Cabinet Connection</th>
+            <th>Device Sensor</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be populated by JS -->
+    </tbody>
+</table>
 
     <div id="spinner" class="spinner" style="display:none;"></div>
     

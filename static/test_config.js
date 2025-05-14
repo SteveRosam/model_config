@@ -8,88 +8,173 @@ document.addEventListener('DOMContentLoaded', function () {
     const uploadInput = document.getElementById('upload-test-mapping-input');
     const saveStatus = document.getElementById('test-save-status');
     const spinner = document.getElementById('spinner');
-
     function showSpinner(show) {
         spinner.style.display = show ? '' : 'none';
     }
 
-    function createRow(mapping = {"test_connection": '', "device_sensor": ''}) {
-        const tr = document.createElement('tr');
-        const testConnTd = document.createElement('td');
-        const sensorTd = document.createElement('td');
-        const actionTd = document.createElement('td');
+function createRow(mapping = {"test_connection": '', "device_sensor": ''}, cabinetSensors = []) {
+    const tr = document.createElement('tr');
+    const testConnTd = document.createElement('td');
+    const sensorTd = document.createElement('td');
+    const actionTd = document.createElement('td');
 
-        const testConnInput = document.createElement('input');
-        testConnInput.type = 'text';
-        testConnInput.value = mapping.test_connection || '';
-        testConnInput.placeholder = 'Test Connection';
-        testConnTd.appendChild(testConnInput);
+    // Dropdown for Cabinet Connection
+    const testConnSelect = document.createElement('select');
+    cabinetSensors.forEach(sensor => {
+        const opt = document.createElement('option');
+        opt.value = sensor.unique_id;
+        opt.textContent = sensor.unique_id;
+        if (sensor.unique_id === mapping.test_connection) opt.selected = true;
+        testConnSelect.appendChild(opt);
+    });
+    testConnTd.appendChild(testConnSelect);
 
-        const sensorInput = document.createElement('input');
-        sensorInput.type = 'text';
-        sensorInput.value = mapping.device_sensor || '';
-        sensorInput.placeholder = 'Device Sensor';
-        sensorTd.appendChild(sensorInput);
+    // Input for Device Sensor
+    const sensorInput = document.createElement('input');
+    sensorInput.type = 'text';
+    sensorInput.value = mapping.device_sensor || '';
+    sensorInput.placeholder = 'Device Sensor';
+    sensorTd.appendChild(sensorInput);
 
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.textContent = 'Remove';
-        removeBtn.onclick = () => tr.remove();
-        actionTd.appendChild(removeBtn);
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = 'Remove';
+    removeBtn.onclick = () => tr.remove();
+    actionTd.appendChild(removeBtn);
 
-        tr.appendChild(testConnTd);
-        tr.appendChild(sensorTd);
-        tr.appendChild(actionTd);
-        tableBody.appendChild(tr);
+    tr.appendChild(testConnTd);
+    tr.appendChild(sensorTd);
+    tr.appendChild(actionTd);
+    tableBody.appendChild(tr);
+}
+
+    let cabinetSensorsCache = [];
+let testConfigurations = [];
+let selectedConfigIdx = 0;
+
+function renderConfigSelector() {
+    const selector = document.getElementById('config-selector');
+    selector.innerHTML = '';
+    testConfigurations.forEach((cfg, idx) => {
+        const option = document.createElement('option');
+        option.value = idx;
+        option.textContent = cfg.name || `Config ${idx+1}`;
+        selector.appendChild(option);
+    });
+    selector.value = selectedConfigIdx;
+}
+
+function renderConfigDetails() {
+    const nameInput = document.getElementById('config-name');
+    const descInput = document.getElementById('config-desc');
+    if (testConfigurations[selectedConfigIdx]) {
+        nameInput.value = testConfigurations[selectedConfigIdx].name || '';
+        descInput.value = testConfigurations[selectedConfigIdx].description || '';
+    } else {
+        nameInput.value = '';
+        descInput.value = '';
     }
+}
 
-    function loadMappings() {
-        showSpinner(true);
-        fetch('/api/test_mapping')
-            .then(r => r.json())
-            .then(mappings => {
-                tableBody.innerHTML = '';
-                if (Array.isArray(mappings) && mappings.length) {
-                    mappings.forEach(m => createRow(m));
-                } else {
-                    createRow();
-                }
-                showSpinner(false);
-            });
+function renderMappingTable() {
+    tableBody.innerHTML = '';
+    const mapping = testConfigurations[selectedConfigIdx]?.mapping || [];
+    if (Array.isArray(mapping) && mapping.length) {
+        mapping.forEach(m => createRow(m, cabinetSensorsCache));
+    } else {
+        createRow({"test_connection": cabinetSensorsCache[0]?.unique_id || '', "device_sensor": ''}, cabinetSensorsCache);
     }
+}
+
+function loadAll() {
+    showSpinner(true);
+    fetch('/api/cabinet_sensors')
+        .then(r => r.json())
+        .then(cabinetSensors => {
+            cabinetSensorsCache = cabinetSensors;
+            fetch('/api/test_mapping')
+                .then(r => r.json())
+                .then(configs => {
+                    testConfigurations = Array.isArray(configs) && configs.length ? configs : [{name:'Default',description:'',mapping:[]}];
+                    selectedConfigIdx = 0;
+                    renderConfigSelector();
+                    renderConfigDetails();
+                    renderMappingTable();
+                    showSpinner(false);
+                });
+        });
+}
+
 
     addBtn.onclick = function () {
-        createRow();
+    createRow({"test_connection": cabinetSensorsCache[0]?.unique_id || '', "device_sensor": ''}, cabinetSensorsCache);
+};
+
+// Config selector change
+const configSelector = document.getElementById('config-selector');
+if (configSelector) {
+    configSelector.onchange = function() {
+        selectedConfigIdx = parseInt(configSelector.value, 10);
+        renderConfigDetails();
+        renderMappingTable();
     };
+}
+// Add new config
+const addConfigBtn = document.getElementById('add-config-btn');
+if (addConfigBtn) {
+    addConfigBtn.onclick = function() {
+        testConfigurations.push({name:'New Config',description:'',mapping:[]});
+        selectedConfigIdx = testConfigurations.length - 1;
+        renderConfigSelector();
+        renderConfigDetails();
+        renderMappingTable();
+    };
+}
+// Name/desc change
+const nameInput = document.getElementById('config-name');
+const descInput = document.getElementById('config-desc');
+if (nameInput && descInput) {
+    nameInput.oninput = function() {
+        if (testConfigurations[selectedConfigIdx]) testConfigurations[selectedConfigIdx].name = nameInput.value;
+        renderConfigSelector();
+    };
+    descInput.oninput = function() {
+        if (testConfigurations[selectedConfigIdx]) testConfigurations[selectedConfigIdx].description = descInput.value;
+    };
+}
 
     saveBtn.onclick = function () {
-        const rows = tableBody.querySelectorAll('tr');
-        const data = [];
-        rows.forEach(tr => {
-            const tds = tr.querySelectorAll('td');
-            const test_connection = tds[0].querySelector('input').value.trim();
-            const device_sensor = tds[1].querySelector('input').value.trim();
-            if (test_connection && device_sensor) {
-                data.push({ test_connection, device_sensor });
-            }
-        });
-        showSpinner(true);
-        fetch('/api/test_mapping', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        .then(r => r.json())
-        .then(resp => {
-            showSpinner(false);
-            if (resp.status === 'success') {
-                saveStatus.textContent = 'Saved!';
-            } else {
-                saveStatus.textContent = 'Error saving!';
-            }
-            setTimeout(() => { saveStatus.textContent = ''; }, 2000);
-        });
-    };
+    const rows = tableBody.querySelectorAll('tr');
+    const mapping = [];
+    rows.forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        const test_connection = tds[0].querySelector('select').value;
+        const device_sensor = tds[1].querySelector('input').value.trim();
+        if (test_connection && device_sensor) {
+            mapping.push({ test_connection, device_sensor });
+        }
+    });
+    if (testConfigurations[selectedConfigIdx]) {
+        testConfigurations[selectedConfigIdx].mapping = mapping;
+    }
+    showSpinner(true);
+    fetch('/api/test_mapping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testConfigurations)
+    })
+    .then(r => r.json())
+    .then(resp => {
+        showSpinner(false);
+        if (resp.status === 'success') {
+            saveStatus.textContent = 'Saved!';
+        } else {
+            saveStatus.textContent = 'Error saving!';
+        }
+        setTimeout(() => { saveStatus.textContent = ''; }, 2000);
+    });
+};
 
     if (downloadBtn) {
         downloadBtn.onclick = function () {
@@ -124,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         body: JSON.stringify(mapping)
                     })
                     .then(r => r.json())
-                    .then(() => loadMappings());
+                    .then(() => loadAll());
                 } catch (err) {
                     alert('Invalid JSON file.');
                 }
@@ -133,5 +218,5 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    loadMappings();
+    loadAll();
 });
