@@ -1,6 +1,5 @@
 [
   {
-    "name": "Default",
     "description": "",
     "mapping": [
       {
@@ -14,21 +13,26 @@
       {
         "test_connection": "fgdfgf",
         "device_sensor": "ffgg"
+      },
+      {
+        "test_connection": "SERIAL_X_009",
+        "device_sensor": "SER_BUS_7"
       }
-    ]
+    ],
+    "name": "Default"
   },
   {
-    "name": "New Config33",
     "description": "",
     "mapping": [
       {
-        "test_connection": "TEST_SEN_0001",
-        "device_sensor": "33"
+        "device_sensor": "33",
+        "test_connection": "TEST_SEN_0001"
       },
       {
-        "test_connection": "fgdfgf",
-        "device_sensor": "44"
+        "device_sensor": "44",
+        "test_connection": "fgdfgf"
       }
-    ]
+    ],
+    "name": "New Config33"
   }
 ]

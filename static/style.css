@@ -60,12 +60,10 @@ body {
     text-decoration: none;
     display: block;
     padding: 12px 24px;
-    border-left: 4px solid transparent;
     transition: background 0.2s, border-color 0.2s;
 }
 .sidebar a:hover, .sidebar a.active {
     background: #31425b;
-    border-left: 4px solid #4fc3f7;
 }
 
 .main-content {

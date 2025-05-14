@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('model-config-form');
     const downloadBtn = document.getElementById('download-model-config-btn');
     const uploadInput = document.getElementById('upload-model-config-input');
+    const configCogBtn = document.getElementById('config-cog-btn');
+    const configModal = document.getElementById('model-config-modal');
+    const closeConfigModal = document.getElementById('close-config-modal');
 
     // Live data options (populated from API only)
     let liveDataOptions = [];
@@ -139,6 +142,19 @@ document.addEventListener('DOMContentLoaded', function () {
     addParamBtn.onclick = function () {
         createParamRow();
     };
+
+    // Modal logic
+    if (configCogBtn && configModal && closeConfigModal) {
+        configCogBtn.onclick = function() {
+            configModal.style.display = 'block';
+        };
+        closeConfigModal.onclick = function() {
+            configModal.style.display = 'none';
+        };
+        configModal.onclick = function(e) {
+            if (e.target === configModal) configModal.style.display = 'none';
+        };
+    }
 
     // Download config as JSON
     if (downloadBtn) {

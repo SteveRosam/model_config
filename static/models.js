@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const modelsList = document.getElementById('models-list');
     const downloadBtn = document.getElementById('download-models-btn');
     const uploadInput = document.getElementById('upload-models-input');
+    const configCogBtn = document.getElementById('config-cog-btn');
+    const configModal = document.getElementById('models-config-modal');
+    const closeConfigModal = document.getElementById('close-config-modal');
 
     function loadModels() {
         fetch('/api/models')
@@ -35,7 +38,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     };
 
-    // Download models as JSON
+    if (configCogBtn && configModal && closeConfigModal) {
+        configCogBtn.onclick = function() {
+            configModal.style.display = 'block';
+        };
+        closeConfigModal.onclick = function() {
+            configModal.style.display = 'none';
+        };
+        configModal.onclick = function(e) {
+            if (e.target === configModal) configModal.style.display = 'none';
+        };
+    }
+
     if (downloadBtn) {
         downloadBtn.onclick = function () {
             fetch('/api/models')
@@ -53,25 +67,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         };
     }
-    // Upload models from JSON
+
     if (uploadInput) {
         uploadInput.onchange = function (e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function (evt) {
+            reader.onload = function (e) {
                 try {
-                    const models = JSON.parse(evt.target.result);
-                    if (!Array.isArray(models)) throw new Error('Invalid format');
-                    fetch('/api/models', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(models)
-                    })
-                    .then(r => r.json())
-                    .then(() => loadModels());
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        // models = imported;
+                        // saveModels();
+                        // renderModels();
+                        fetch('/api/models', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(imported)
+                        })
+                        .then(r => r.json())
+                        .then(() => loadModels());
+                    }
                 } catch (err) {
-                    alert('Invalid JSON file.');
+                    alert('Invalid JSON file');
                 }
             };
             reader.readAsText(file);

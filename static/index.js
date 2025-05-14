@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         downloadAllBtn.onclick = async function () {
             const [models, sensors, mapping, modelConfigs] = await Promise.all([
                 fetch('/api/models').then(r => r.json()),
-                fetch('/api/cabinet_sensors').then(r => r.json()),
+                fetch('/api/test_chamber').then(r => r.json()),
                 fetch('/api/test_mapping').then(r => r.json()),
                 Promise.resolve(await fetch('/api/models').then(r => r.json()))
                     .then(models => Promise.all(models.map(m => fetch(`/api/model_config/${encodeURIComponent(m.file)}`).then(r => r.json()).then(cfg => ({file: m.file, config: cfg}))))),
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
-    fetch('/api/cabinet_sensors').then(r => r.json()).then(sensors => {
+    fetch('/api/test_chamber').then(r => r.json()).then(sensors => {
         const tbody = document.querySelector('#sensors-table tbody');
         if (tbody) {
             tbody.innerHTML = '';

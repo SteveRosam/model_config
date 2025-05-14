@@ -111,6 +111,22 @@ function loadAll() {
     createRow({"test_connection": cabinetSensorsCache[0]?.unique_id || '', "device_sensor": ''}, cabinetSensorsCache);
 };
 
+// Modal logic
+const configCogBtn = document.getElementById('config-cog-btn');
+const configModal = document.getElementById('test-config-modal');
+const closeConfigModal = document.getElementById('close-config-modal');
+if (configCogBtn && configModal && closeConfigModal) {
+    configCogBtn.onclick = function() {
+        configModal.style.display = 'block';
+    };
+    closeConfigModal.onclick = function() {
+        configModal.style.display = 'none';
+    };
+    configModal.onclick = function(e) {
+        if (e.target === configModal) configModal.style.display = 'none';
+    };
+}
+
 // Config selector change
 const configSelector = document.getElementById('config-selector');
 if (configSelector) {
