@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const downloadBtn = document.getElementById('download-model-config-btn');
     const uploadInput = document.getElementById('upload-model-config-input');
 
+    // Live data options (populated from API only)
+    let liveDataOptions = [];
+    fetch('/api/live_data_options').then(r => r.json()).then(list => {
+        if (Array.isArray(list)) liveDataOptions = list;
+    }).catch(() => {});
+
     // Helper to create parameter row
     function createParamRow(modelParam = '', dataProp = '', source = 'Live Data') {
         const tr = document.createElement('tr');
@@ -25,13 +31,37 @@ document.addEventListener('DOMContentLoaded', function () {
         modelParamTd.appendChild(modelParamInput);
 
         const dataPropTd = document.createElement('td');
-        const dataPropInput = document.createElement('input');
-        dataPropInput.type = 'text';
-        dataPropInput.placeholder = 'Data';
-        dataPropInput.value = dataProp;
-        dataPropInput.required = true;
-        dataPropInput.style.width = '95%';
-        dataPropTd.appendChild(dataPropInput);
+        let dataPropInput, dataPropDatalist;
+        function createDataInput(sourceVal, value) {
+            dataPropTd.innerHTML = '';
+            if (sourceVal === 'Live Data') {
+                dataPropInput = document.createElement('input');
+                dataPropInput.type = 'text';
+                dataPropInput.setAttribute('list', 'live-data-options-' + Math.random().toString(36).substr(2, 6));
+                dataPropInput.placeholder = 'Data';
+                dataPropInput.value = value || '';
+                dataPropInput.required = true;
+                dataPropInput.style.width = '95%';
+                dataPropDatalist = document.createElement('datalist');
+                dataPropDatalist.id = dataPropInput.getAttribute('list');
+                (liveDataOptions || []).forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt;
+                    dataPropDatalist.appendChild(option);
+                });
+                dataPropTd.appendChild(dataPropInput);
+                dataPropTd.appendChild(dataPropDatalist);
+            } else {
+                dataPropInput = document.createElement('input');
+                dataPropInput.type = 'text';
+                dataPropInput.placeholder = 'Data';
+                dataPropInput.value = value || '';
+                dataPropInput.required = true;
+                dataPropInput.style.width = '95%';
+                dataPropTd.appendChild(dataPropInput);
+            }
+        }
+        createDataInput(source, dataProp);
 
         const sourceTd = document.createElement('td');
         const sourceSelect = document.createElement('select');
@@ -43,6 +73,10 @@ document.addEventListener('DOMContentLoaded', function () {
             sourceSelect.appendChild(opt);
         });
         sourceTd.appendChild(sourceSelect);
+        // When source changes, update Data field input type
+        sourceSelect.addEventListener('change', function() {
+            createDataInput(sourceSelect.value, dataPropInput.value);
+        });
 
         const actionTd = document.createElement('td');
         const removeBtn = document.createElement('button');

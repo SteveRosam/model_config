@@ -14,13 +14,23 @@
   "model1.pkl": [
     {
       "model_param": "Flywheel",
-      "data_property_name": "f_wheel",
+      "data_property_name": "f_spindle_speed",
       "source": "Live Data"
     },
     {
       "model_param": "Ambient",
       "data_property_name": "22",
       "source": "Constant"
+    },
+    {
+      "model_param": "IsRunning",
+      "data_property_name": "b_running",
+      "source": "Live Data"
+    },
+    {
+      "model_param": "New",
+      "data_property_name": "new",
+      "source": "Live Data"
     }
   ]
 }

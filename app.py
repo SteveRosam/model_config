@@ -150,6 +150,15 @@ def api_test_run_notes():
     save_data('test_run_history', test_run_history)
     return jsonify({'status': 'success'})
 
+@app.route('/api/live_data_options', methods=['GET'])
+def api_live_data_options():
+    return jsonify([
+        'f_manifold_pressure',
+        'b_running',
+        'f_ambient_temperature',
+        'f_spindle_speed'
+    ])
+
 @app.route('/api/load_all', methods=['POST'])
 def api_load_all():
     global models, test_sensors, test_configurations, model_configs
