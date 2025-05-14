@@ -1,4 +1,4 @@
-// test_sensors.js - Handles the Test Sensors page
+// test_sensors.js - Handles the Test Chamber page
 
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('sensor-form');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadSensors() {
         tableBody.innerHTML = '';
-        fetch('/api/cabinet_sensors')
+        fetch('/api/test_chamber')
             .then(r => r.json())
             .then(sensors => {
                 sensors.forEach(s => {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
         const unique_id = uniqueIdInput.value.trim();
         if (!unique_id) return;
-        fetch('/api/cabinet_sensors', {
+        fetch('/api/test_chamber', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ unique_id })
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Download sensors as JSON
     if (downloadBtn) {
         downloadBtn.onclick = function () {
-            fetch('/api/cabinet_sensors')
+            fetch('/api/test_chamber')
                 .then(r => r.json())
                 .then(sensors => {
                     const blob = new Blob([JSON.stringify(sensors, null, 2)], {type: 'application/json'});
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!Array.isArray(sensors)) throw new Error('Invalid format');
                     // Overwrite all sensors by posting one by one (could be optimized)
                     Promise.all(sensors.map(s =>
-                        fetch('/api/cabinet_sensors', {
+                        fetch('/api/test_chamber', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(s)
@@ -87,6 +87,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             };
             reader.readAsText(file);
+        };
+    }
+
+    // Modal logic
+    const configCogBtn = document.getElementById('config-cog-btn');
+    const configModal = document.getElementById('sensor-config-modal');
+    const closeConfigModal = document.getElementById('close-config-modal');
+    if (configCogBtn && configModal && closeConfigModal) {
+        configCogBtn.onclick = function() {
+            configModal.style.display = 'block';
+        };
+        closeConfigModal.onclick = function() {
+            configModal.style.display = 'none';
+        };
+        configModal.onclick = function(e) {
+            if (e.target === configModal) configModal.style.display = 'none';
         };
     }
 

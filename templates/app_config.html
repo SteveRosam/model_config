@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Configuration</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include '_sidebar.html' %}
+        <main class="main-content">
+            <h1>App Configuration</h1>
+            <div id="config-container">
+                <form id="app-config-form">
+    <div class="form-group">
+        <label for="test-chamber-page-name">Test Chamber Page Name</label>
+        <input type="text" id="test-chamber-page-name" name="test_chamber_page_name" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
+    </div>
+    <button type="submit">Save</button>
+    <span id="save-status" style="margin-left:12px;color:#4caf50;display:none;">Saved!</span>
+</form>
+<script>
+// Load current config
+fetch('/api/app_config').then(r => r.json()).then(cfg => {
+    document.getElementById('test-chamber-page-name').value = cfg.test_chamber_page_name || 'Test Chamber';
+});
+
+// Handle form submit
+const form = document.getElementById('app-config-form');
+form.onsubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('test-chamber-page-name').value.trim() || 'Test Chamber';
+    fetch('/api/update_app_config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ test_chamber_page_name: name })
+    })
+    .then(r => r.json())
+    .then(() => {
+        const status = document.getElementById('save-status');
+        status.style.display = 'inline';
+        setTimeout(() => { status.style.display = 'none'; }, 1200);
+    });
+};
+</script>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -89,7 +89,7 @@ function renderMappingTable() {
 
 function loadAll() {
     showSpinner(true);
-    fetch('/api/cabinet_sensors')
+    fetch('/api/test_chamber')
         .then(r => r.json())
         .then(cabinetSensors => {
             cabinetSensorsCache = cabinetSensors;

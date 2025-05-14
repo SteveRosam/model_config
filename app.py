@@ -2,6 +2,13 @@ from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+
+@app.context_processor
+def inject_nav_test_chamber_name():
+    config = load_app_config()
+    return dict(nav_test_chamber_name=config.get('test_chamber_page_name', 'Test Chamber'))
+
 CORS(app)  # Enable CORS for all domains
 
 # Load persisted data at startup (each file individually)
@@ -112,12 +119,14 @@ def api_run_test():
 
 
 
-@app.route('/cabinet_sensors')
-def cabinet_sensors_page():
-    return render_template('cabinet_sensors.html')
+@app.route('/test_chamber')
+def test_chamber():
+    config = load_app_config()
+    page_title = config.get('test_chamber_page_name', 'Test Chamber')
+    return render_template('test_chamber.html', page_title=page_title)
 
-@app.route('/api/cabinet_sensors', methods=['GET', 'POST'])
-def api_cabinet_sensors():
+@app.route('/api/test_chamber', methods=['GET', 'POST'])
+def api_test_chamber():
     global test_sensors
     if request.method == 'POST':
         data = request.json
@@ -158,6 +167,37 @@ def api_live_data_options():
         'f_ambient_temperature',
         'f_spindle_speed'
     ])
+
+import json
+
+CONFIG_PATH = 'app_config.json'
+
+def load_app_config():
+    try:
+        with open(CONFIG_PATH, 'r') as f:
+            return json.load(f)
+    except Exception:
+        return {"test_chamber_page_name": "Test Chamber"}
+
+def save_app_config(config):
+    with open(CONFIG_PATH, 'w') as f:
+        json.dump(config, f, indent=4)
+
+@app.route('/app_config')
+def app_config():
+    return render_template('app_config.html')
+
+@app.route('/api/app_config', methods=['GET'])
+def api_get_app_config():
+    return load_app_config()
+
+@app.route('/api/update_app_config', methods=['POST'])
+def api_update_app_config():
+    data = request.get_json()
+    config = load_app_config()
+    config.update(data)
+    save_app_config(config)
+    return {"success": True, "config": config}
 
 @app.route('/api/load_all', methods=['POST'])
 def api_load_all():
