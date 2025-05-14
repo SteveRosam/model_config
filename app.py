@@ -135,9 +135,20 @@ def api_cabinet_sensors():
 @app.route('/api/test_run_history', methods=['GET'])
 def api_test_run_history():
     global test_run_history
-    # Always reload from disk in case of external changes
     test_run_history = load_or_default('test_run_history', test_run_history)
     return jsonify(test_run_history)
+
+@app.route('/api/test_run_notes', methods=['POST'])
+def api_test_run_notes():
+    global test_run_history
+    data = request.json
+    idx = data.get('index')
+    notes = data.get('notes', '')
+    if idx is None or not isinstance(idx, int) or idx < 0 or idx >= len(test_run_history):
+        return jsonify({'status': 'error', 'message': 'Invalid index'}), 400
+    test_run_history[-(idx+1)]['notes'] = notes
+    save_data('test_run_history', test_run_history)
+    return jsonify({'status': 'success'})
 
 @app.route('/api/load_all', methods=['POST'])
 def api_load_all():

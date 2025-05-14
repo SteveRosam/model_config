@@ -16,6 +16,11 @@
       "model_param": "Flywheel",
       "data_property_name": "f_wheel",
       "source": "Live Data"
+    },
+    {
+      "model_param": "Ambient",
+      "data_property_name": "22",
+      "source": "Constant"
     }
   ]
 }

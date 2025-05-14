@@ -66,11 +66,63 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!tbody) return;
             tbody.innerHTML = '';
             if (Array.isArray(history) && history.length > 0) {
-                history.slice().reverse().forEach(run => {
+                history.slice().reverse().forEach((run, idx) => {
                     const tr = document.createElement('tr');
                     const configName = configs[run.config_idx]?.name || `Config ${Number(run.config_idx) + 1}` || '';
-                    tr.innerHTML = `<td>${new Date(run.timestamp).toLocaleString()}</td><td>${run.file}</td><td>${configName}</td><td>${run.user || 'Unknown'}</td>`;
-                    tbody.appendChild(tr);
+                    tr.innerHTML = `<td>${new Date(run.timestamp).toLocaleString()}</td><td>${run.file}</td><td>${configName}</td><td>${run.user || 'Unknown'}</td><td style='width:220px;'>${run.notes && run.notes.trim() ? `<span class='test-notes-icon-wrap' style='position:relative;display:inline-block;'><svg height='18' width='18' viewBox='0 0 20 20' style='vertical-align:middle;margin-right:4px;cursor:pointer;' fill='#4fc3f7'><path d='M2 3.5A1.5 1.5 0 0 1 3.5 2h13A1.5 1.5 0 0 1 18 3.5v9A1.5 1.5 0 0 1 16.5 14H6.707l-3.353 3.354A.5.5 0 0 1 2.5 16.5V3.5z'/></svg><span class='test-notes-tooltip' style='display:none;position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#222e3c;color:#fff;padding:6px 12px;border-radius:6px;font-size:14px;white-space:pre-line;box-shadow:0 2px 8px rgba(0,0,0,0.16);z-index:10;min-width:120px;max-width:320px;word-break:break-word;'>${run.notes.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span></span>` : ''}<button class=\"test-notes-btn\">Notes</button><div class=\"test-notes-edit\" style=\"display:none;\"><textarea rows=\"2\" style=\"width:90%;resize:vertical;\">${run.notes ? run.notes.replace(/</g, '&lt;').replace(/>/g, '&gt;') : ''}</textarea><br><button class=\"test-notes-save\">Save</button> <button class=\"test-notes-cancel\">Cancel</button></div></td>`;                    tbody.appendChild(tr);
+
+                    // Notes button logic
+                    const notesBtn = tr.querySelector('.test-notes-btn');
+                    const notesEdit = tr.querySelector('.test-notes-edit');
+                    const textarea = notesEdit.querySelector('textarea');
+                    const saveBtn = notesEdit.querySelector('.test-notes-save');
+                    const cancelBtn = notesEdit.querySelector('.test-notes-cancel');
+
+                    // Tooltip logic for speech bubble icon
+                    const iconWrap = tr.querySelector('.test-notes-icon-wrap');
+                    if (iconWrap) {
+                        const tooltip = iconWrap.querySelector('.test-notes-tooltip');
+                        const svg = iconWrap.querySelector('svg');
+                        svg.addEventListener('mouseenter', () => {
+                            tooltip.style.display = 'block';
+                        });
+                        svg.addEventListener('mouseleave', () => {
+                            tooltip.style.display = 'none';
+                        });
+                        svg.addEventListener('focus', () => {
+                            tooltip.style.display = 'block';
+                        });
+                        svg.addEventListener('blur', () => {
+                            tooltip.style.display = 'none';
+                        });
+                    }
+
+                    notesBtn.addEventListener('click', () => {
+                        notesEdit.style.display = '';
+                        notesBtn.style.display = 'none';
+                        textarea.value = run.notes || '';
+                    });
+                    cancelBtn.addEventListener('click', () => {
+                        notesEdit.style.display = 'none';
+                        notesBtn.style.display = '';
+                    });
+                    saveBtn.addEventListener('click', () => {
+                        fetch('/api/test_run_notes', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ index: idx, notes: textarea.value })
+                        })
+                        .then(r => r.json())
+                        .then(resp => {
+                            if (resp.status === 'success') {
+                                run.notes = textarea.value;
+                                notesEdit.style.display = 'none';
+                                notesBtn.style.display = '';
+                            } else {
+                                alert('Failed to save notes: ' + (resp.message || 'Unknown error'));
+                            }
+                        });
+                    });
                 });
             } else {
                 const tr = document.createElement('tr');
