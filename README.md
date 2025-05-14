@@ -7,6 +7,7 @@ A web application for configuring test mappings between cabinet sensors and devi
 - **Test Configuration:** Map cabinet connections (user-defined sensors) to device sensors (predefined list). Save, download, and upload mappings as JSON.
 - **Cabinet Sensors:** Add, view, download, and upload cabinet sensors (with unique ID, name, and description).
 - **Model Configuration:** For each model, define parameters: model parameter name, source (Live Data/Constant), and data column. Save, download, and upload per-model configs as JSON.
+- **Download/Upload All:** Download all configuration data as a single JSON file, or upload it to restore the complete app state, using buttons on the index page.
 - **Sidebar Navigation:** Quick links to all sections.
 
 ## Stack
@@ -14,6 +15,26 @@ A web application for configuring test mappings between cabinet sensors and devi
 - **Frontend:** HTML, CSS, JavaScript (fetch API)
 
 ## Getting Started
+
+### Upload/Download All Configuration (New)
+
+- On the index page, use the **Download All** button to save all configuration data (models, sensors, mappings, model configs) to a single JSON file.
+- Use the **Upload All** button to restore all configuration data from a previously downloaded JSON file. This sends the data to the `/api/load_all` endpoint.
+
+#### `/api/load_all` Endpoint
+- **Method:** POST
+- **Description:** Accepts a JSON object with keys: `models`, `sensors`, `mapping`, and `modelConfigs`.
+- **Example JSON structure:**
+
+```json
+{
+  "models": [ ... ],
+  "sensors": [ ... ],
+  "mapping": [ ... ],
+  "modelConfigs": [ ... ]
+}
+```
+- The endpoint updates all in-memory data. Returns `{"status": "success"}` or an error message.
 
 ### 1. Install dependencies
 ```sh
@@ -105,6 +126,7 @@ Configuration/
 
 ## Notes
 - All data is stored in-memory by default. Restarting the app will reset all data.
+- Use the **Download All** feature regularly to back up your configuration, and **Upload All** to restore it as needed.
 - For production, add persistent storage and restrict CORS.
 
 ---
