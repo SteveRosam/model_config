@@ -1,0 +1,32 @@
+/* index.css - Page-specific styles for index.html */
+
+#download-all-btn {
+    margin: 16px 0;
+}
+
+#upload-all-input {
+    display: inline;
+}
+
+#all-tables h2 {
+    margin-top: 24px;
+}
+
+#models-table,
+#sensors-table,
+#mapping-table {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+#models-table th,
+#sensors-table th,
+#mapping-table th {
+    text-align: left;
+}
+
+#models-table td,
+#sensors-table td,
+#mapping-table td {
+    vertical-align: middle;
+}

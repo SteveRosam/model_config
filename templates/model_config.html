@@ -5,31 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Configuration</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/model_config.css">
 </head>
 <body>
     <div class="container">
         {% include '_sidebar.html' %}
         <main class="main-content">
-            <div style="display:flex;align-items:center;gap:12px;">
-    <h1 style="margin-bottom:0;">Model Configuration</h1>
-    <button id="config-cog-btn" title="Import/Export Config" style="background:none;border:none;padding:0;cursor:pointer;vertical-align:middle;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67 2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
-        </svg>
-    </button>
-</div>
-<!-- Modal Popup for Import/Export -->
-<div id="model-config-modal" style="display:none;position:fixed;z-index:2000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);">
-    <div style="background:#fff;padding:32px 24px 24px 24px;max-width:350px;margin:100px auto;border-radius:10px;box-shadow:0 2px 16px rgba(0,0,0,0.13);position:relative;">
-        <button id="close-config-modal" style="position:absolute;top:8px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;">&times;</button>
-        <h2 style="margin-top:0;font-size:1.2em;">Import/Export Config</h2>
-        <button id="download-model-config-btn" type="button" style="width:100%;margin-bottom:14px;">Download Config JSON</button>
-        <label for="upload-model-config-input" style="display:block;width:100%;margin-bottom:8px;">
-            <input type="file" id="upload-model-config-input" accept="application/json" style="display:inline;" />
-            <span style="vertical-align:middle;">Upload Config JSON</span>
-        </label>
-    </div>
-</div>
+            <div class="model-config-header">
+                <h1>Model Configurations</h1>
+                <button id="model-config-cog-btn" title="Import/Export Model Config">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67-2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- Modal Popup for Import/Export -->
+            <div id="model-config-modal">
+                <div class="modal-content">
+                    <button id="close-model-config-modal">&times;</button>
+                    <h2>Import/Export Model Config</h2>
+                    <button id="download-model-config-btn" type="button">Download Model Config JSON</button>
+                    <label for="upload-model-config-input">
+                        <input type="file" id="upload-model-config-input" accept="application/json" />
+                        <span>Upload Model Config JSON</span>
+                    </label>
+                </div>
+            </div>
             <div id="model-config-container">
                 <label for="model-select"><strong>Select Model:</strong></label>
                 <select id="model-select"></select>

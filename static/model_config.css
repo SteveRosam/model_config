@@ -1,0 +1,71 @@
+/* model_config.css - Page-specific styles for model_config.html */
+
+.model-config-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#model-config-cog-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#model-config-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+}
+
+#model-config-modal .modal-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    max-width: 350px;
+    margin: 100px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    position: relative;
+}
+
+#close-model-config-modal {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#download-model-config-btn {
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+#upload-model-config-input {
+    display: inline;
+}
+
+#add-model-config-form {
+    margin-bottom: 24px;
+}
+
+#add-model-config-form input {
+    margin-right: 8px;
+}
+
+#model-config-list tr td {
+    vertical-align: middle;
+}
+
+.table-full {
+    width: 100%;
+}

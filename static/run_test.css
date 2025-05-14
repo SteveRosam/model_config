@@ -1,0 +1,22 @@
+/* run_test.css - Page-specific styles for run_test.html */
+
+#run-test-form select {
+    margin-right: 16px;
+}
+
+#run-status {
+    margin-left: 16px;
+    color: green;
+}
+
+#test-run-history-section {
+    margin-top: 32px;
+}
+
+#test-run-history-table {
+    width: 100%;
+}
+
+#test-run-history-table th:last-child {
+    width: 220px;
+}

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configuration Management</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
     <div class="container">
@@ -15,18 +16,18 @@
             <div id="config-container">
                 <!-- Configuration UI will go here -->
             </div>
-            <button id="download-all-btn" type="button" style="margin:16px 0;">Download All</button>
-            <label for="upload-all-input" style="margin-left:16px;">
-                <input type="file" id="upload-all-input" accept="application/json" style="display:inline;" />
-                <span style="vertical-align:middle;">Load All</span>
+            <button id="download-all-btn" type="button">Download All</button>
+            <label for="upload-all-input">
+                <input type="file" id="upload-all-input" accept="application/json" />
+                <span>Load All</span>
             </label>
             <div id="all-tables">
                 <h2>Models</h2>
-                <table id="models-table" style="width:100%;margin-bottom:24px;"><thead><tr><th>Name</th><th>File</th><th>Description</th></tr></thead><tbody></tbody></table>
+                <table id="models-table"><thead><tr><th>Name</th><th>File</th><th>Description</th></tr></thead><tbody></tbody></table>
                 <h2>Cabinet Sensors</h2>
-                <table id="sensors-table" style="width:100%;margin-bottom:24px;"><thead><tr><th>Unique ID</th></tr></thead><tbody></tbody></table>
+                <table id="sensors-table"><thead><tr><th>Unique ID</th></tr></thead><tbody></tbody></table>
                 <h2>Test Configuration Mapping</h2>
-                <table id="mapping-table" style="width:100%;margin-bottom:24px;"><thead><tr><th>Cabinet Connection</th><th>Device Sensor</th></tr></thead><tbody></tbody></table>
+                <table id="mapping-table"><thead><tr><th>Cabinet Connection</th><th>Device Sensor</th></tr></thead><tbody></tbody></table>
                 <h2>Model Configurations</h2>
                 <div id="model-configs-list"></div>
             </div>

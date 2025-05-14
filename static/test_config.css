@@ -1,0 +1,76 @@
+/* test_config.css - Page-specific styles for test_config.html */
+
+.test-config-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#config-cog-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#test-config-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+}
+
+#test-config-modal .modal-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    max-width: 350px;
+    margin: 100px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    position: relative;
+}
+
+#close-config-modal {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#download-test-mapping-btn {
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+#upload-test-mapping-input {
+    display: inline;
+}
+
+#add-config-btn {
+    margin-left: 8px;
+}
+
+#config-name {
+    width: 160px;
+    margin-right: 16px;
+}
+
+#config-desc {
+    width: 300px;
+}
+
+#test-mapping-table {
+    width: 100%;
+}
+
+#spinner {
+    display: none;
+}
