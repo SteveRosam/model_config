@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Model 1",
+    "file": "model1.pkl",
+    "description": "First test model."
+  },
+  {
+    "name": "Model 2",
+    "file": "model2.pkl",
+    "description": "Second test model."
+  },
+  {
+    "name": "engine",
+    "file": "engine.m",
+    "description": "The engine model"
+  }
+]

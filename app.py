@@ -4,28 +4,33 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all domains
 
-# In-memory test configuration store
-test_configurations = []
+# Load persisted data at startup (each file individually)
+from persistence import save_data, load_data, save_all, load_all
 
-# In-memory model list and Test Configs
-model_files = ['model1.pkl', 'model2.pkl']  # For backward compatibility
-model_configs = {}
-models = [
+def load_or_default(name, default):
+    try:
+        return load_data(name, default)
+    except Exception:
+        return default
+
+models = load_or_default('models', [
     {"name": "Model 1", "file": "model1.pkl", "description": "First test model."},
     {"name": "Model 2", "file": "model2.pkl", "description": "Second test model."}
-]
-
-# In-memory test sensors
-test_sensors = [
+])
+test_sensors = load_or_default('test_sensors', [
     {"unique_id": "TEST_SEN_0001"},
     {"unique_id": "TEST_SEN_0002"}
-]
+])
+test_configurations = load_or_default('test_configurations', [])
+model_configs = load_or_default('model_configs', {})
 
 # In-memory store for last run
 last_run = {}
 # In-memory list for test run history
 import datetime
-test_run_history = []
+from persistence import save_data, load_data, save_all, load_all
+
+test_run_history = load_or_default('test_run_history', [])
 
 @app.route('/')
 def index():
@@ -40,6 +45,7 @@ def api_test_mapping():
     global test_configurations
     if request.method == 'POST':
         test_configurations = request.json or []
+        save_data('test_configurations', test_configurations)
         return jsonify({'status': 'success'})
     return jsonify(test_configurations)
 
@@ -63,11 +69,13 @@ def api_models():
                 if not all(k in m for k in ('name', 'file', 'description')):
                     return jsonify({'status': 'error', 'message': 'Missing fields in at least one model'}), 400
                 models.append(m)
+            save_data('models', models)
             return jsonify({'status': 'success'})
         # Single model add
         if not data or not all(k in data for k in ('name', 'file', 'description')):
             return jsonify({'status': 'error', 'message': 'Missing fields'}), 400
         models.append(data)
+        save_data('models', models)
         return jsonify({'status': 'success'})
     return jsonify(models)
 
@@ -76,6 +84,7 @@ def api_model_config(model_file):
     global model_configs
     if request.method == 'POST':
         model_configs[model_file] = request.json or {}
+        save_data('model_configs', model_configs)
         return jsonify({'status': 'success'})
     return jsonify(model_configs.get(model_file, {}))
 
@@ -91,11 +100,13 @@ def api_run_test():
         return jsonify({'status': 'error', 'message': 'Missing file or config'}), 400
     last_run = {'file': data['file'], 'config_idx': data['config_idx']}
     # Add to test run history with timestamp
-    test_run_history.append({
+    test_run = {
         'file': data['file'],
         'config_idx': data['config_idx'],
         'timestamp': datetime.datetime.now().isoformat()
-    })
+    }
+    test_run_history.append(test_run)
+    save_data('test_run_history', test_run_history)
     return jsonify({'status': 'success'})
 
 
@@ -115,6 +126,7 @@ def api_cabinet_sensors():
         if any(s['unique_id'] == data['unique_id'] for s in test_sensors):
             return jsonify({'status': 'error', 'message': 'Unique ID already exists'}), 400
         test_sensors.append(data)
+        save_data('test_sensors', test_sensors)
         return jsonify({'status': 'success'})
     return jsonify(test_sensors)
 
@@ -122,6 +134,8 @@ def api_cabinet_sensors():
 @app.route('/api/test_run_history', methods=['GET'])
 def api_test_run_history():
     global test_run_history
+    # Always reload from disk in case of external changes
+    test_run_history = load_or_default('test_run_history', test_run_history)
     return jsonify(test_run_history)
 
 @app.route('/api/load_all', methods=['POST'])
@@ -161,6 +175,8 @@ def api_load_all():
                 if not isinstance(mc, dict) or 'file' not in mc or 'config' not in mc:
                     return jsonify({'status': 'error', 'message': 'Each modelConfig should have file and config'}), 400
                 model_configs[mc['file']] = mc['config']
+        # Save all data to disk after bulk load
+        save_all(models, test_sensors, test_configurations, model_configs)
         return jsonify({'status': 'success'})
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)}), 400

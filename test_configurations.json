@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Default",
+    "description": "",
+    "mapping": [
+      {
+        "test_connection": "TEST_SEN_0001",
+        "device_sensor": "1"
+      },
+      {
+        "test_connection": "TEST_SEN_0002",
+        "device_sensor": "2"
+      },
+      {
+        "test_connection": "fgdfgf",
+        "device_sensor": "ffgg"
+      }
+    ]
+  },
+  {
+    "name": "New Config33",
+    "description": "",
+    "mapping": [
+      {
+        "test_connection": "TEST_SEN_0001",
+        "device_sensor": "33"
+      },
+      {
+        "test_connection": "fgdfgf",
+        "device_sensor": "44"
+      }
+    ]
+  }
+]
