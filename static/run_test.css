@@ -13,9 +13,7 @@
     margin-top: 32px;
 }
 
-#test-run-history-table {
-    width: 100%;
-}
+
 
 #test-run-history-table th:last-child {
     width: 220px;

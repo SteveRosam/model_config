@@ -52,9 +52,78 @@ body {
     padding: 0;
     margin: 0;
 }
+
+/* === Shared Utility & Component Classes === */
+
+.display-flex-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cog-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+}
+
+.modal-content {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    max-width: 350px;
+    margin: 100px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    position: relative;
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.table-full {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+th, td {
+    vertical-align: middle;
+    text-align: left;
+}
+
+.mb-24 {
+    margin-bottom: 24px !important;
+}
+.mt-24 {
+    margin-top: 24px !important;
+}
+.inline {
+    display: inline !important;
+}
+
 .sidebar li {
     margin-bottom: 16px;
 }
+
 .sidebar a {
     color: #fff;
     text-decoration: none;

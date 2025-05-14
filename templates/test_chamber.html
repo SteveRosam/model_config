@@ -11,9 +11,9 @@
     <div class="container">
         {% include '_sidebar.html' %}
         <main class="main-content">
-            <div class="test-chamber-header">
+            <div class="display-flex-header">
                 <h1>{{ page_title }}</h1>
-                <button id="config-cog-btn" title="Sensor Import/Export">
+                <button class="cog-btn" id="config-cog-btn" title="Sensor Import/Export">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67-2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
                     </svg>
@@ -25,9 +25,9 @@
                 <span id="sensor-status"></span>
             </form>
             <!-- Modal Popup for Import/Export -->
-            <div id="sensor-config-modal">
+            <div class="modal-overlay" id="sensor-config-modal">
                 <div class="modal-content">
-                    <button id="close-config-modal">&times;</button>
+                    <button class="modal-close-btn" id="close-config-modal">&times;</button>
                     <h2>Import/Export Sensors</h2>
                     <button id="download-sensors-btn" type="button">Download Sensors JSON</button>
                     <label for="upload-sensors-input">
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <h2></h2>
-            <table id="sensor-table">
+            <table id="sensor-table" class="table-full">
                 <thead>
                     <tr><th>Unique ID</th></tr>
                 </thead>

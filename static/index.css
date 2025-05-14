@@ -12,21 +12,3 @@
     margin-top: 24px;
 }
 
-#models-table,
-#sensors-table,
-#mapping-table {
-    width: 100%;
-    margin-bottom: 24px;
-}
-
-#models-table th,
-#sensors-table th,
-#mapping-table th {
-    text-align: left;
-}
-
-#models-table td,
-#sensors-table td,
-#mapping-table td {
-    vertical-align: middle;
-}
