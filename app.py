@@ -7,7 +7,10 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 @app.context_processor
 def inject_nav_test_chamber_name():
     config = load_app_config()
-    return dict(nav_test_chamber_name=config.get('test_chamber_page_name', 'Test Chamber'))
+    return dict(
+        nav_test_chamber_name=config.get('test_chamber_page_name', 'Test Chamber'),
+        nav_test_config_name=config.get('test_config_page_name', 'Test Configuration')
+    )
 
 CORS(app)  # Enable CORS for all domains
 
@@ -45,7 +48,13 @@ def index():
 
 @app.route('/test_config')
 def test_config():
-    return render_template('test_config.html')
+    config = load_app_config()
+    return render_template(
+        'test_config.html',
+        test_config_page_name=config.get('test_config_page_name', 'Test Configuration'),
+        cabinet_connection_label=config.get('cabinet_connection_label', 'Cabinet Connection'),
+        device_sensor_label=config.get('device_sensor_label', 'Device Sensor')
+    )
 
 @app.route('/api/test_mapping', methods=['GET', 'POST'])
 def api_test_mapping():

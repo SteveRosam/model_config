@@ -1,4 +1,7 @@
 {
     "cabinet_sensors_page_name": "Test Chamber Settings",
-    "test_chamber_page_name": "Test Chamber Config"
+    "test_chamber_page_name": "Test Chamber Setup",
+    "test_config_page_name": "Test Configuration",
+    "cabinet_connection_label": "Cabinet Probes",
+    "device_sensor_label": "Device Port"
 }

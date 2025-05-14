@@ -11,7 +11,7 @@
         {% include '_sidebar.html' %}
         <main class="main-content">
             <div style="display:flex;align-items:center;gap:12px;">
-    <h1 style="margin-bottom:0;">Test Configuration</h1>
+    <h1 style="margin-bottom:0;">{{ test_config_page_name or 'Test Configuration' }}</h1>
     <button id="config-cog-btn" title="Import/Export Config" style="background:none;border:none;padding:0;cursor:pointer;vertical-align:middle;">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:block;" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.43-2.9l1.77-1.02a1 1 0 0 0 .37-1.36l-1.67-2.89a1 1 0 0 0-1.22-.47l-2.08.83a7.03 7.03 0 0 0-1.62-.94l-.31-2.21A1 1 0 0 0 13.3 3h-2.6a1 1 0 0 0-.99.85l-.31 2.21a7.03 7.03 0 0 0-1.62.94l-2.08-.83a1 1 0 0 0-1.22.47l-1.67 2.89a1 1 0 0 0 .37 1.36l1.77 1.02a7.14 7.14 0 0 0 0 1.88l-1.77 1.02a1 1 0 0 0-.37 1.36l1.67 2.89a1 1 0 0 0 1.22.47l2.08-.83c.5.36 1.04.68 1.62.94l.31 2.21a1 1 0 0 0 .99.85h2.6a1 1 0 0 0 .99-.85l.31-2.21c.58-.26 1.12-.58 1.62-.94l2.08.83a1 1 0 0 0 1.22-.47l1.67-2.89a1 1 0 0 0-.37-1.36l-1.77-1.02c.04-.31.07-.63.07-.94s-.03-.63-.07-.94z" fill="#555"/>
@@ -45,8 +45,8 @@
 <table id="test-mapping-table">
     <thead>
         <tr>
-            <th>Cabinet Connection</th>
-            <th>Device Sensor</th>
+            <th>{{ cabinet_connection_label or 'Cabinet Connection' }}</th>
+            <th>{{ device_sensor_label or 'Device Sensor' }}</th>
             <th>Action</th>
         </tr>
     </thead>

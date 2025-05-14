@@ -17,6 +17,16 @@
         <label for="test-chamber-page-name">Test Chamber Page Name</label>
         <input type="text" id="test-chamber-page-name" name="test_chamber_page_name" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
     </div>
+    <hr style="margin:24px 0;">
+    <div class="form-group">
+        <h3 style="margin-bottom:8px;">Test Configuration Page Labels</h3>
+        <label for="test-config-page-name">Page Name</label>
+        <input type="text" id="test-config-page-name" name="test_config_page_name" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
+        <label for="cabinet-connection-label">Cabinet Connection Column Label</label>
+        <input type="text" id="cabinet-connection-label" name="cabinet_connection_label" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
+        <label for="device-sensor-label">Device Sensor Column Label</label>
+        <input type="text" id="device-sensor-label" name="device_sensor_label" value="" style="width: 100%; max-width: 350px; margin-bottom: 12px;" />
+    </div>
     <button type="submit">Save</button>
     <span id="save-status" style="margin-left:12px;color:#4caf50;display:none;">Saved!</span>
 </form>
@@ -24,6 +34,9 @@
 // Load current config
 fetch('/api/app_config').then(r => r.json()).then(cfg => {
     document.getElementById('test-chamber-page-name').value = cfg.test_chamber_page_name || 'Test Chamber';
+    document.getElementById('test-config-page-name').value = cfg.test_config_page_name || 'Test Configuration';
+    document.getElementById('cabinet-connection-label').value = cfg.cabinet_connection_label || 'Cabinet Connection';
+    document.getElementById('device-sensor-label').value = cfg.device_sensor_label || 'Device Sensor';
 });
 
 // Handle form submit
@@ -31,10 +44,18 @@ const form = document.getElementById('app-config-form');
 form.onsubmit = function(e) {
     e.preventDefault();
     const name = document.getElementById('test-chamber-page-name').value.trim() || 'Test Chamber';
+    const configPageName = document.getElementById('test-config-page-name').value.trim() || 'Test Configuration';
+    const cabinetLabel = document.getElementById('cabinet-connection-label').value.trim() || 'Cabinet Connection';
+    const deviceLabel = document.getElementById('device-sensor-label').value.trim() || 'Device Sensor';
     fetch('/api/update_app_config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ test_chamber_page_name: name })
+        body: JSON.stringify({
+            test_chamber_page_name: name,
+            test_config_page_name: configPageName,
+            cabinet_connection_label: cabinetLabel,
+            device_sensor_label: deviceLabel
+        })
     })
     .then(r => r.json())
     .then(() => {
